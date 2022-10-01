@@ -28,10 +28,17 @@ class extractor():
         '''function to insure the return type '''
         pass
 
-    def extract(self):
-        local_df = {}
+    def extract_xarr_to_df(self):
 
-        extract_coordinates = { val: row[key]}
+        def map_row_to_keys(row) -> Dict[str, Union[float, int]]:
+            extract_coordinates = { val: row[key]  for key,val in self.col_mapper.items()}
+            return extract_coordinates
+
+        return self.tag_data.apply(
+            lambda row: map_row_to_keys(row), axis=1, result_type="expand"
+        )
+
+
 
 
 
